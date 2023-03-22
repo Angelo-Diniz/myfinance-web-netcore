@@ -8,5 +8,7 @@ namespace myfinance_web_netcore.Domain.Entities
         public decimal Valor { get; set; }
         public int PlanoContaId { get; set; }
         public PlanoConta PlanoConta { get; set; }
+        public int TipoPagamentoId { get; set; }
+        public TipoPagamento TipoPagamento { get; set; }
     }
 }

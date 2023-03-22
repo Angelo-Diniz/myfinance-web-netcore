@@ -23,7 +23,7 @@ namespace myfinance_web_netcore.Domain.Services.Interfaces
         public List<TransacaoModel> ListarRegistros()
         {
             var result = new List<TransacaoModel>();
-            var dbSet = _dbContext.Transacao.Include( x => x.PlanoConta);
+            var dbSet = _dbContext.Transacao.Include(x => x.PlanoConta).Include(dbSet => dbSet.TipoPagamento); ;
 
             foreach (var item in dbSet)
             {
@@ -33,17 +33,23 @@ namespace myfinance_web_netcore.Domain.Services.Interfaces
                     Historico = item.Historico,
                     Data = item.Data,
                     Valor = item.Valor,
-                    ItemPlanoConta = new PlanoContaModel(){
+                    ItemPlanoConta = new PlanoContaModel()
+                    {
                         Id = item.PlanoConta.Id,
                         Descricao = item.PlanoConta.Descricao,
                         Tipo = item.PlanoConta.Tipo
                     },
-                    PlanoContaId = item.PlanoContaId
+                    PlanoContaId = item.PlanoContaId,
+                    ItemTipoPagamento = new TipoPagamentoModel()
+                    {
+                        Id = item.TipoPagamento.Id,
+                        Tipo = item.TipoPagamento.Tipo
+                    },
+                    TipoPagamentoId = item.TipoPagamentoId
                 };
 
                 result.Add(itemPlanoConta);
             }
-
 
             return result;
         }
@@ -59,7 +65,8 @@ namespace myfinance_web_netcore.Domain.Services.Interfaces
                 Historico = model.Historico,
                 Data = model.Data,
                 Valor = model.Valor,
-                PlanoContaId = model.PlanoContaId
+                PlanoContaId = model.PlanoContaId,
+                TipoPagamentoId = model.TipoPagamentoId
             };
 
             if (entidade.Id == null)
@@ -86,7 +93,7 @@ namespace myfinance_web_netcore.Domain.Services.Interfaces
                 Data = item.Data,
                 Valor = item.Valor,
                 PlanoContaId = item.PlanoContaId,
-                
+                TipoPagamentoId = item.TipoPagamentoId
             };
 
             return itemPlanoConta;
